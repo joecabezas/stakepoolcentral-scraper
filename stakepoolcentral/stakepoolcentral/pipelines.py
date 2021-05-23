@@ -5,9 +5,17 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
+import json
 
+from scrapy.exceptions import DropItem
 
 class StakepoolcentralPipeline:
+
     def process_item(self, item, spider):
+        if not item:
+            raise DropItem()
+
+        with open(f"data/adalotls/{spider.number}.json", 'w') as f:
+            f.write(json.dumps(item))
+
         return item
